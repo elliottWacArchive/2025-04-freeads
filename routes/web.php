@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'showIndex']);
 Route::resource('users', UserController::class);
-
+Route::resource('annonces', AnnonceController::class);
 // routes pour la vérification d'email
 Route::get('/email/verify', function () {
     return view('auth.verify-email');

@@ -36,13 +36,13 @@
                     $primaryPath = $primaryImage ? $primaryImage->path : ($annonce->images->isNotEmpty() ? $annonce->images->first()->path : $annonce->photo);
                 @endphp
                 
-                <div class="main-image">
+                {{-- <div class="main-image">
                     @if($primaryPath)
                         <img src="{{ asset('storage/' . $primaryPath) }}" alt="{{ $annonce->titre }}" class="primary-image">
                     @else
                         <img src="{{ asset('images/no-image.jpg') }}" alt="Aucune image disponible">
                     @endif
-                </div>
+                </div> --}}
                 
                 @if($annonce->images->count() > 1)
                     <div class="image-gallery">

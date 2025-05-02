@@ -15,11 +15,57 @@ class AnnonceController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
         $this->middleware('verified')->except(['index', 'show']);
     }
-    
-    public function index()
+    public function index(Request $request)
     {
-        $annonces = Annonce::with('images')->latest()->paginate(10);
-        return view('annonces.index', compact('annonces'));
+        $query = Annonce::with('images');
+        
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('titre', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+        
+        if ($request->has('categorie') && !empty($request->categorie)) {
+            $query->where('categorie', $request->categorie);
+        }
+        
+        if ($request->has('prix_min') && is_numeric($request->prix_min)) {
+            $query->where('prix', '>=', $request->prix_min);
+        }
+        
+        if ($request->has('prix_max') && is_numeric($request->prix_max)) {
+            $query->where('prix', '<=', $request->prix_max);
+        }
+        
+        if ($request->has('date_min') && !empty($request->date_min)) {
+            $query->where('created_at', '>=', $request->date_min);
+        }
+        
+        $order = $request->has('order') ? $request->order : 'latest';
+        
+        switch ($order) {
+            case 'price_asc':
+                $query->orderBy('prix', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('prix', 'desc');
+                break;
+            case 'oldest':
+                $query->oldest();
+                break;
+            case 'latest':
+            default:
+                $query->latest();
+                break;
+        }
+
+        $annonces = $query->paginate(10)->withQueryString();
+        
+        $categories = Annonce::distinct('categorie')->pluck('categorie')->filter();
+        
+        return view('annonces.index', compact('annonces', 'categories'));
     }
     
     public function create()
@@ -32,14 +78,16 @@ class AnnonceController extends Controller
         $validated = $request->validate([
             'titre' => 'required|string|max:255',
             'description' => 'required|string',
+            'categorie' => 'nullable|string|max:50',
             'images' => 'required|array|min:1',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'prix' => 'required|numeric|min:0',
         ]);
-
+    
         $annonce = new Annonce([
             'titre' => $validated['titre'],
             'description' => $validated['description'],
+            'categorie' => $validated['categorie'] ?? null,
             'prix' => $validated['prix'],
             'user_id' => Auth::id()
         ]);

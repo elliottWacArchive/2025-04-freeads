@@ -13,6 +13,68 @@
     <main>
         <h2>Annonces disponibles</h2>
 
+        <div class="search-form">
+            <form method="GET" action="{{ route('annonces.index') }}">
+                <div class="filter-group">
+                    <input type="text" name="search" placeholder="Rechercher..." value="{{ request('search') }}">
+                    <button type="submit">Rechercher</button>
+                </div>
+
+                <details {{ request()->hasAny(['categorie', 'prix_min', 'prix_max', 'date_min', 'order']) ? 'open' : '' }}>
+                    <summary>Filtres avancés</summary>
+                    
+                    <div class="filter-group">
+                        <label for="categorie">Catégorie</label>
+                        <select name="categorie" id="categorie">
+                            <option value="">Toutes les catégories</option>
+                            @foreach($categories as $categorie)
+                                <option value="{{ $categorie }}" {{ request('categorie') == $categorie ? 'selected' : '' }}>
+                                    {{ ucfirst($categorie) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Prix</label>
+                        <div class="price-inputs">
+                            <input type="number" name="prix_min" placeholder="Min" min="0" value="{{ request('prix_min') }}">
+                            <input type="number" name="prix_max" placeholder="Max" min="0" value="{{ request('prix_max') }}">
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="date_min">Date de publication (à partir de)</label>
+                        <input type="date" name="date_min" id="date_min" value="{{ request('date_min') }}">
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="order">Trier par</label>
+                        <select name="order" id="order">
+                            <option value="latest" {{ request('order') == 'latest' || !request('order') ? 'selected' : '' }}>
+                                Plus récentes
+                            </option>
+                            <option value="oldest" {{ request('order') == 'oldest' ? 'selected' : '' }}>
+                                Plus anciennes
+                            </option>
+                            <option value="price_asc" {{ request('order') == 'price_asc' ? 'selected' : '' }}>
+                                Prix croissant
+                            </option>
+                            <option value="price_desc" {{ request('order') == 'price_desc' ? 'selected' : '' }}>
+                                Prix décroissant
+                            </option>
+                        </select>
+                    </div>
+                </details>
+
+                <div class="filter-group">
+                    <button type="submit">Appliquer les filtres</button>
+                    <a href="{{ route('annonces.index') }}">Réinitialiser</a>
+                </div>
+            </form>
+        </div>
+
+
         @if (session('success'))
             <div>
                 {{ session('success') }}

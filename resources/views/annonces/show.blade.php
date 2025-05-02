@@ -30,6 +30,20 @@
         @endif
 
         <article class="annonce-detail">
+            <div class="actions">
+                @auth
+                    @if ($annonce->user_id === Auth::id())
+                        <a href="{{ route('annonces.edit', $annonce->id) }}" class="btn-edit">Modifier cette annonce</a>
+                        <form method="POST" action="{{ route('annonces.destroy', $annonce->id) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette annonce?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn-delete">Supprimer cette annonce</button>
+                        </form>
+                    @else
+                        <a href="{{ route('messages.create', ['annonce' => $annonce->id, 'receiver' => $annonce->user_id]) }}" class="btn-contact">Contacter le vendeur</a>
+                    @endif
+                @endauth
+            </div>
             <div class="annonce-images">
                 @php
                     $primaryImage = $annonce->images->firstWhere('is_primary', true);

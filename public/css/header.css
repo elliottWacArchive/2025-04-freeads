@@ -34,7 +34,22 @@ body {
     transition: background-color 0.3s;
 }
 
+.logout-form {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
 .logout:hover {
     background-color: #dd5a5a;
     color: white;
+}
+
+.badge {
+    background-color: #f53003;
+    color: white;
+    border-radius: 50%;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    margin-left: 0.3rem;
 }

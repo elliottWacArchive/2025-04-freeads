@@ -34,6 +34,23 @@
                 <label for="description">Description</label>
                 <textarea id="description" name="description" rows="5" required>{{ old('description', $annonce->description) }}</textarea>
             </div>
+
+            <div class="form-group">
+                <label for="categorie">Catégorie</label>
+                <select id="categorie" name="categorie">
+                    <option value="">Sélectionner une catégorie</option>
+                    <option value="immobilier" {{ old('categorie', $annonce->categorie) == 'immobilier' ? 'selected' : '' }}>Immobilier</option>
+                    <option value="vehicules" {{ old('categorie', $annonce->categorie) == 'vehicules' ? 'selected' : '' }}>Véhicules</option>
+                    <option value="multimedia" {{ old('categorie', $annonce->categorie) == 'multimedia' ? 'selected' : '' }}>Multimédia</option>
+                    <option value="maison" {{ old('categorie', $annonce->categorie) == 'maison' ? 'selected' : '' }}>Maison</option>
+                    <option value="loisirs" {{ old('categorie', $annonce->categorie) == 'loisirs' ? 'selected' : '' }}>Loisirs</option>
+                    <option value="mode" {{ old('categorie', $annonce->categorie) == 'mode' ? 'selected' : '' }}>Mode</option>
+                    <option value="animaux" {{ old('categorie', $annonce->categorie) == 'animaux' ? 'selected' : '' }}>Animaux</option>
+                    <option value="emploi" {{ old('categorie', $annonce->categorie) == 'emploi' ? 'selected' : '' }}>Emploi</option>
+                    <option value="services" {{ old('categorie', $annonce->categorie) == 'services' ? 'selected' : '' }}>Services</option>
+                    <option value="autres" {{ old('categorie', $annonce->categorie) == 'autres' ? 'selected' : '' }}>Autres</option>
+                </select>
+            </div>
             
             <div class="form-group">
                 <label for="prix">Prix (€)</label>

@@ -33,6 +33,23 @@
                 <label for="description">Description</label>
                 <textarea id="description" name="description" rows="5" required>{{ old('description') }}</textarea>
             </div>
+
+            <div class="form-group">
+                <label for="categorie">Catégorie</label>
+                <select id="categorie" name="categorie">
+                    <option value="">Sélectionner une catégorie</option>
+                    <option value="immobilier" {{ old('categorie') == 'immobilier' ? 'selected' : '' }}>Immobilier</option>
+                    <option value="vehicules" {{ old('categorie') == 'vehicules' ? 'selected' : '' }}>Véhicules</option>
+                    <option value="multimedia" {{ old('categorie') == 'multimedia' ? 'selected' : '' }}>Multimédia</option>
+                    <option value="maison" {{ old('categorie') == 'maison' ? 'selected' : '' }}>Maison</option>
+                    <option value="loisirs" {{ old('categorie') == 'loisirs' ? 'selected' : '' }}>Loisirs</option>
+                    <option value="mode" {{ old('categorie') == 'mode' ? 'selected' : '' }}>Mode</option>
+                    <option value="animaux" {{ old('categorie') == 'animaux' ? 'selected' : '' }}>Animaux</option>
+                    <option value="emploi" {{ old('categorie') == 'emploi' ? 'selected' : '' }}>Emploi</option>
+                    <option value="services" {{ old('categorie') == 'services' ? 'selected' : '' }}>Services</option>
+                    <option value="autres" {{ old('categorie') == 'autres' ? 'selected' : '' }}>Autres</option>
+                </select>
+            </div>
             
             <div class="form-group">
                 <label for="prix">Prix (€)</label>

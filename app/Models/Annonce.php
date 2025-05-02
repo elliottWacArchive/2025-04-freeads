@@ -12,7 +12,7 @@ class Annonce extends Model
     protected $fillable = [
         'titre',
         'description',
-        'photo',  // On garde temporairement pour la compatibilité
+        'categorie',
         'prix',
         'user_id'
     ];
